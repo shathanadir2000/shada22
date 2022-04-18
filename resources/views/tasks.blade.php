@@ -72,8 +72,20 @@
                                 <!-- Task Delete Button -->
                                 <td>
                                     <form action="#" method="POST">
+                                    @csrf
+                                        <input type="hidden"  name ="id" value="{{$task['id']}"}>
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-btn fa-trash"></i>Delete
+                                        </button>
+                                    </form>
+                                </td>
+                                 <!-- Task Update Button -->
+                                 <td>
+                                    <form action="#" method="POST">
+                                        @csrf
+                                        <input type="hidden"  name ="id" value="{{$task['id']}"}>
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fa fa-btn fa-trash"></i>Update
                                         </button>
                                     </form>
                                 </td>

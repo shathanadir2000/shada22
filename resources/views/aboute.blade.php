@@ -1,28 +1,18 @@
+
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-
-
-
-@foreach ($tasks as $key=> $task )
-<ul>
-
-
-    <li> <a href="/task/{{$key}}"> {{$task}} </li>
-
-</ul>
-@endforeach
-
-<script src="" async defer></script>
+<body> 
+    <h1>Hellow , <?php echo $name ?></h1>
+    <form action="store", method="POST">
+        @csrf
+        <input type="text" name ="name">
+        <button type="submit"  >send </button>
+    </form>
 </body>
-
-</html
+</html>
