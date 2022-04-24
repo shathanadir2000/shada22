@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\DB;
+use App\Models\Task;
 
  Route::get('/', function(){
     return view('welcome');
@@ -24,9 +25,9 @@ Route::get('show/{id}', function($id){
     return view('show', compact('task'));
 });
 
-Route::get('/',[TaskController::class,'index'])->name('tasks');
-Route::get('/tasks/{id}',[TaskController::class,'show'])->name('show');
-Route::post('store',[TaskController::class,'store'])->name('store');
-Route::get('delete/{id}',[TaskController::class,'destroy'])->name('show');
-Route::get('edit/{id}',[TaskController::class,'showData'])->name('show');
-Route::post('edit/',[TaskController::class,'update'])->name('show');
+Route::get('/',[TaskController::class,'index'])->name('task.index');
+Route::get('/tasks/{id}',[TaskController::class,'show'])->name('task.show');
+Route::post('/tasks/store',[TaskController::class,'store'])->name('task.store');
+Route::Delete('delete/{id}',[TaskController::class,'destroy'])->name('task.delete');
+Route::put('edit/{id}',[TaskController::class,'showData'])->name('task.edit');
+Route::patch('update/{id}',[TaskController::class, 'update'])-> name('task.update');

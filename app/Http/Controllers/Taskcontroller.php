@@ -3,52 +3,54 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
     public function index(){
         // $tasks= DB::table('tasks')->get();
-        $tasks = Task::all();
+        $tasks = Task::all()->sortBy("name");
         return view('tasks',compact('tasks'));
     }
 
     public function show($id){
-        $tasks= DB::table('tasks')->find($id);
+        $task = Task :: find($id);
         return view('show',compact('task'));
     }
 
 
-     public function store(    Request $request  ){
+     public function store( Request $request  ){
 
-    //  DB::table('tasks')->insert([
-    //      'name'=> $request->name
-    //  ]);
+      $task = new Task();
+      $task->name = $request->name;
+      $task-> created_at = now();
+      $task ->updated_at = now();
+      $task -> save();
 
-    $task = new Task();
-    // $task.name = $request.name;
-    // $task-> created _at();
-    tasks.save();
-    return redirect()->back();
+       return redirect() -> back();
+
     }
 
-    public function destroy(){
-        // $tasks= DB::table('tasks')->get();
-        $Task ::fine($id)->delete() ;
-        $task = Task::find($id);
-        $task->delete();
-        return view('tasks',compact('tasks'));
+    public function delete($id){
+        $task = Task :: find($id);
+        $task -> delete();
+        return redirect() -> back();
+ 
+     }
+    
+     public function edit($id){
+
+
+        $tasks = Task :: all()->sortBy("name");
+        $task = Task :: find($id);
+
+        return view('/tasks', compact('task', 'tasks'));
     }
-    public function showDate($id){
-        
-        $task = Task::find($id);
-       
-        return view('tasks',compact('tasks'));
-    }
-    public function update(Request $req){
-    //    return $req->input();
-       $task = Task::find($req->id);
-       $task->save();
-     return redirct('tasks');  
+    public function update(Request $request, $id){
+    
+
+        $task = Task :: where('id',$id)->update(['name' => $request->name]);
+        return redirect('/');
     }
 
  }

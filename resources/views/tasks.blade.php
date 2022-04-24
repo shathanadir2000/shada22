@@ -1,32 +1,43 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    @foreach ($tasks as $task)
-        <ul>
-            <li> <a href="/task/{{ $task->id }}"> {{ $task->name }} </li>
-        </ul>
-    @endforeach
-</body>
-</html> --}}
-
-@extends('layouts.app')
+@extends('layout.app')
 @section('content')
+
+<div class="container">
     <div class="col-sm-offset-2 col-sm-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card card-default">
+            <div class="card-header">
                 New Task
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 <!-- Display Validation Errors -->
+                @if (isset($task))
+                <!-- Edit Task Form -->
+
+                <form action="{{url('update/'.$task->id)}}" method="POST" class="form-horizontal">
+                    @csrf
+                    @method('PATCH')
+                    <!-- Task Name -->
+                    <div class="form-group">
+                        <label for="task-name" class="col-sm-3 control-label">Task</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" name="name" id="task-name" class="form-control" value="{{$task->name}}">
+                        </div>
+                    </div>
+
+                    <!-- Add Task Button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-pencil"></i> Update Task
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                @else
                 <!-- New Task Form -->
-                <form action="/store" method="POST" class="form-horizontal">
+                <form action="{{url('store')}}" method="POST" class="form-horizontal">
                     @csrf
                     <!-- Task Name -->
                     <div class="form-group">
@@ -46,16 +57,18 @@
                         </div>
                     </div>
                 </form>
+                @endif
+
             </div>
         </div>
 
         <!-- Current Tasks -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card card-default">
+            <div class="card-header">
                 Current Tasks
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 <table class="table table-striped task-table">
                     <thead>
                         <th>Task</th>
@@ -63,38 +76,36 @@
                     </thead>
                     <tbody>
                         @foreach ($tasks as $task)
-                            {
-                            <tr>
-                                <td class="table-text">
-                                    <div>{{ $task->name }}</div>
-                                </td>
+                        <tr>
+                            <td class="table-text">
+                                <div>{{$task->name}}</a></div>
+                            </td>
 
-                                <!-- Task Delete Button -->
-                                <td>
-                                    <form action="#" method="POST">
+                            <!-- Task Delete Button -->
+                            <td>
+                                <form action="{{url('delete/'.$task->id)}}" method="POST">
                                     @csrf
-                                        <input type="hidden"  name ="id" value="{{$task['id']}"}>
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-btn fa-trash"></i>Delete
-                                        </button>
-                                    </form>
-                                </td>
-                                 <!-- Task Update Button -->
-                                 <td>
-                                    <form action="#" method="POST">
-                                        @csrf
-                                        <input type="hidden"  name ="id" value="{{$task['id']}"}>
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-btn fa-trash"></i>Update
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            }
+                                    @method('Delete')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-btn fa-trash"></i>Delete
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{url('edit/'.$task->id)}}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-pencil-square-o"></i>  Edit
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 @endsection
